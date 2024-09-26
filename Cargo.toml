@@ -1,0 +1,13 @@
+[package]
+name          = "unsaferef"
+version       = "0.1.0"
+edition       = "2021"
+authors       = ["kanarus <kanarus786@gmail.com>"]
+documentation = "https://docs.rs/unsaferef"
+homepage      = "https://crates.io/crates/unsaferef"
+repository    = "https://github.com/ohkami-rs/unsaferef"
+readme        = "README.md"
+license       = "MIT"
+description   = "An unsafe reference without explicit lifetime"
+keywords      = []
+categories    = []
