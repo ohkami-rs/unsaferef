@@ -19,12 +19,14 @@ tasks:
   test:doc:
     cmds:
       - cargo test --doc
-      
+
   test:lib:
     cmds:
-      - cargo test --lib
+      - cargo test --lib --no-default-features
+      - cargo test --lib --features alloc
   
   ##### check #####
   check:lib:
     cmds:
-      - cargo check
+      - cargo check --no-default-features
+      - cargo check --features alloc
