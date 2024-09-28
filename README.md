@@ -19,7 +19,7 @@ use unsaferef::UnsafeRef;
 fn main() {
     let data = String::from("Hello, world!");
 
-    // SAFETY: `data` is alive while `r` can be accessed
+    // SAFETY: `data` is alive as long as `r` is in use
     let r: UnsafeRef<String> = unsafe {
         UnsafeRef::new(&data)
     };
