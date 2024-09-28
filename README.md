@@ -32,7 +32,7 @@ fn main() {
 
 `UnsafeRef` supports `no-std::no-alloc`.
 
-On `alloc` feature ( default ), unsaferef provides `UnsafeCow`, an unsafe Clone-on-Write container without explicit lifetime.
+On `alloc` feature ( default ), unsaferef additionally provides `UnsafeCow`, an unsafe Clone-on-Write container without explicit lifetime.
 
 ## License
 
