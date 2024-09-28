@@ -5,7 +5,7 @@
 
 <div align="right">
     <a href="https://github.com/ohkami-rs/unsaferef/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/crates/l/unsaferef.svg" /></a>
-    <a href="https://github.com/ohkami-rs/unsaferef/actions"><img alt="CI status" src="https://github.com/ohkami-rs/unsaferef/actions/workflows/CI.yml/badge.svg"/></a>
+    <a href="https://github.com/ohkami-rs/unsaferef/actions"><img alt="CI status" src="https://github.com/ohkami-rs/unsaferef/actions/workflows/CI.yaml/badge.svg"/></a>
     <a href="https://crates.io/crates/unsaferef"><img alt="crates.io" src="https://img.shields.io/crates/v/unsaferef" /></a>
 </div>
 
