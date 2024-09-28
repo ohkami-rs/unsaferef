@@ -1,4 +1,4 @@
-use std::ptr::NonNull;
+use core::ptr::NonNull;
 
 pub struct UnsafeRef<T: ?Sized>(NonNull<T>);
 
@@ -20,7 +20,7 @@ impl<T: ?Sized> Clone for UnsafeRef<T> {
 }
 impl<T: ?Sized> Copy for UnsafeRef<T> {}
 
-impl<T: ?Sized> std::ops::Deref for UnsafeRef<T> {
+impl<T: ?Sized> core::ops::Deref for UnsafeRef<T> {
     type Target = T;
 
     #[inline(always)]
@@ -30,24 +30,24 @@ impl<T: ?Sized> std::ops::Deref for UnsafeRef<T> {
     }
 }
 
-impl<T: ?Sized + std::hash::Hash> std::hash::Hash for UnsafeRef<T> {
+impl<T: ?Sized + core::hash::Hash> core::hash::Hash for UnsafeRef<T> {
     #[inline]
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         (&**self).hash(state);
     }
 }
 
-impl<T: ?Sized + std::fmt::Debug> std::fmt::Debug for UnsafeRef<T> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl<T: ?Sized + core::fmt::Debug> core::fmt::Debug for UnsafeRef<T> {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         f.debug_tuple("UnsafeRef")
             .field(&&**self)
             .finish()
     }
 }
-impl<T: ?Sized + std::fmt::Display> std::fmt::Display for UnsafeRef<T> {
+impl<T: ?Sized + core::fmt::Display> core::fmt::Display for UnsafeRef<T> {
     #[inline]
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        std::fmt::Display::fmt(&**self, f)
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        core::fmt::Display::fmt(&**self, f)
     }
 }
 

@@ -1,3 +1,5 @@
+#![cfg(feature="alloc")]
+
 use crate::UnsafeRef;
 
 pub enum UnsafeCow<T: ?Sized + ToOwned> {

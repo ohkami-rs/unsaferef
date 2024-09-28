@@ -3,7 +3,9 @@
 mod test_readme {}
 
 mod unsafe_ref;
-mod unsafe_cow;
-
 pub use unsafe_ref::UnsafeRef;
+
+#[cfg(feature="alloc")]
+mod unsafe_cow;
+#[cfg(feature="alloc")]
 pub use unsafe_cow::UnsafeCow;
