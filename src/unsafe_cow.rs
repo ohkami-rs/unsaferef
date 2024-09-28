@@ -5,6 +5,17 @@ pub enum UnsafeCow<T: ?Sized + ToOwned> {
     Own(<T as ToOwned>::Owned)
 }
 
+impl<T: ?Sized + ToOwned> UnsafeCow<T> {
+    #[inline]
+    pub fn to_mut(&mut self) -> &mut <T as ToOwned>::Owned {
+        if let Self::Ref(r) = self {
+            *self = Self::Own((&**r).to_owned())
+        }
+        let Self::Own(o) = self else {unreachable!()};
+        o
+    }
+}
+
 impl<T: ?Sized + ToOwned> Clone for UnsafeCow<T> {
     fn clone(&self) -> Self {
         match self {
@@ -26,16 +37,58 @@ impl<T: ?Sized + ToOwned> std::ops::Deref for UnsafeCow<T> {
     }
 }
 
-impl<T: ?Sized + ToOwned> std::ops::DerefMut for UnsafeCow<T>
-where
-    <T as ToOwned>::Owned: std::borrow::BorrowMut<T>
-{
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        if let Self::Ref(r) = self {
-            *self = Self::Own((&**r).to_owned())
-        }
-        let Self::Own(o) = self else {unsafe {std::hint::unreachable_unchecked()}};
-        std::borrow::BorrowMut::borrow_mut(o)
+impl<T: ?Sized + ToOwned + std::hash::Hash> std::hash::Hash for UnsafeCow<T> {
+    #[inline]
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        (&**self).hash(state);
     }
 }
+
+impl<T: ?Sized + ToOwned + std::fmt::Debug> std::fmt::Debug for UnsafeCow<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        std::fmt::Debug::fmt(&**self, f)
+    }
+}
+impl<T: ?Sized + ToOwned + std::fmt::Display> std::fmt::Display for UnsafeCow<T> {
+    #[inline]
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        std::fmt::Display::fmt(&**self, f)
+    }
+}
+
+impl<T: ?Sized + ToOwned + PartialEq> PartialEq for UnsafeCow<T>
+where
+    <T as ToOwned>::Owned: PartialEq
+{
+    fn eq(&self, other: &Self) -> bool {
+        match (self, other) {
+            (Self::Ref(r1), Self::Ref(r2)) => r1 == r2,
+            (Self::Own(o1), Self::Own(o2)) => o1 == o2,
+            _ => false
+        }
+    }
+}
+impl<T: ?Sized + ToOwned + PartialEq> PartialEq<T> for UnsafeCow<T>
+where
+    <T as ToOwned>::Owned: PartialEq<T>
+{
+    fn eq(&self, other: &T) -> bool {
+        match self {
+            Self::Ref(r) => r == other,
+            Self::Own(o) => o == other,
+        }
+    }
+}
+impl<'t, T: ?Sized + ToOwned + PartialEq> PartialEq<&'t T> for UnsafeCow<T>
+where
+    <T as ToOwned>::Owned: PartialEq<&'t T>
+{
+    fn eq(&self, other: &&'t T) -> bool {
+        match self {
+            Self::Ref(r) => r == other,
+            Self::Own(o) => o == other,
+        }
+    }
+}
+impl<T: ?Sized + ToOwned + PartialEq> Eq for UnsafeCow<T>
+where <T as ToOwned>::Owned: PartialEq {}

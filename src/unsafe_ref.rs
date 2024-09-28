@@ -13,12 +13,12 @@ impl<T: ?Sized> UnsafeRef<T> {
 unsafe impl<T: ?Sized> Send for UnsafeRef<T> {}
 unsafe impl<T: ?Sized> Sync for UnsafeRef<T> {}
 
-impl<T: ?Sized> Copy for UnsafeRef<T> {}
 impl<T: ?Sized> Clone for UnsafeRef<T> {
     fn clone(&self) -> Self {
         Self(self.0)
     }
 }
+impl<T: ?Sized> Copy for UnsafeRef<T> {}
 
 impl<T: ?Sized> std::ops::Deref for UnsafeRef<T> {
     type Target = T;
@@ -30,6 +30,13 @@ impl<T: ?Sized> std::ops::Deref for UnsafeRef<T> {
     }
 }
 
+impl<T: ?Sized + std::hash::Hash> std::hash::Hash for UnsafeRef<T> {
+    #[inline]
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        (&**self).hash(state);
+    }
+}
+
 impl<T: ?Sized + std::fmt::Debug> std::fmt::Debug for UnsafeRef<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_tuple("UnsafeRef")
@@ -38,6 +45,7 @@ impl<T: ?Sized + std::fmt::Debug> std::fmt::Debug for UnsafeRef<T> {
     }
 }
 impl<T: ?Sized + std::fmt::Display> std::fmt::Display for UnsafeRef<T> {
+    #[inline]
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         std::fmt::Display::fmt(&**self, f)
     }
@@ -58,3 +66,5 @@ impl<T: ?Sized + PartialEq> PartialEq<&T> for UnsafeRef<T> {
         &**self == *other
     }
 }
+
+impl<T: ?Sized + PartialEq> Eq for UnsafeRef<T> {}

@@ -1,8 +1,6 @@
-#[cfg(test)]
 #[doc(hidden)]
-mod test_readme {
-    #![doc = include_str!("../README.md")]
-}
+#[doc = include_str!("../README.md")]
+mod test_readme {}
 
 mod unsafe_ref;
 mod unsafe_cow;

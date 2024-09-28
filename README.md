@@ -24,7 +24,7 @@ fn main() {
         UnsafeRef::new(&data)
     };
 
-    assert_eq!(&r, "Hello, world!");
+    assert_eq!(*r, "Hello, world!");
 
     drop(data)
 }
