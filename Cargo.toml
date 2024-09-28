@@ -10,4 +10,8 @@ readme        = "README.md"
 license       = "MIT"
 description   = "An unsafe reference without explicit lifetime"
 keywords      = []
-categories    = []
+categories    = ["rust-patterns", "no-std", "no-std::no-alloc"]
+
+[features]
+default = ["alloc"]
+alloc   = []
