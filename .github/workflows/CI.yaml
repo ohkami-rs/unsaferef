@@ -20,4 +20,4 @@ jobs:
       - name: Taskfile
         run: |
           sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
-          ${{ matrix.toolchain == 'nightly' && 'task CI' || 'task CI:nobench' }}
+          task CI
