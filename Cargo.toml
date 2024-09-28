@@ -9,7 +9,7 @@ repository    = "https://github.com/ohkami-rs/unsaferef"
 readme        = "README.md"
 license       = "MIT"
 description   = "An unsafe reference without explicit lifetime"
-keywords      = []
+keywords      = ["reference", "lifetime"]
 categories    = ["rust-patterns", "no-std", "no-std::no-alloc"]
 
 [features]
